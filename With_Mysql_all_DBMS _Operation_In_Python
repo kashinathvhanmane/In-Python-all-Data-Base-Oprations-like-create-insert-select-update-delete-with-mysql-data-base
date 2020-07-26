@@ -1,0 +1,132 @@
+
+import  mysql.connector
+
+
+#*******************data base connection ***************************************
+def connection():
+    con = mysql.connector.connect(host="localhost", database="asciieducation2020python"
+                                  , user="root", password="", port="3306")
+    return con
+
+
+
+#****************table creation sql Query*************************************
+def CreateTable():
+    createTable = """ Create Table `info`
+       (`name` text NOT NULL,
+         `dob` date NOT NULL,
+         `id` int(10) NOT NULL,
+         `phone` decimal NOT NULL,
+         `email` text NOT NULL)"""
+    return createTable
+
+#**********************insert data into table sql Query*************************
+def InsertDeatils():
+    insertData = """INSERT INTO `info`
+           (`name`,`dob`,`id`,`phone`,`email`)
+               values(?,?,?,?,?)"""
+    return insertData
+
+
+#************************fetch Recod from table sql Query************************
+def Displayrecods():
+    displaydata="select * from `info`"
+    return displaydata
+
+
+#************************update Record  from table using user id sql Query****************
+def UpdateRecord():
+    updateDetails="update info set name=?,dob=?,id=?,phone=?,email=? where id=? "
+    return updateDetails
+
+
+#**********************Delete Record from table using user id sql Query***************
+def DeleteRecord():
+    deleterecord="delete from info where id=?"
+    return deleterecord
+
+
+
+#*************accept data from user ***************************************
+def getData():
+    myname = input("Enter student name:")
+
+    mydob = input("Enter student DOB:")
+
+    myid = int(input("Enter Student id:"))
+
+    ch = "yes"
+    myphone = ""
+    while (ch == "yes"):
+        myphone = eval(input("Enter student phone number:"))
+        if myphone > 199999999 and myphone < 9999999999:
+
+            ch = "no"
+        else:
+            print("plz Enter valid mobile number!")
+
+    ch = "yes"
+    myemail = ""
+    while (ch == "yes"):
+        myemail = input("Enter Student email:")
+        if myemail.endswith("@gmail.com") == True:
+
+            ch = "no"
+        else:
+            print("Plz Enter valid Email address!")
+    return myname,mydob,myid,myphone,myemail
+
+
+
+
+
+#***************all data base operation create,insert,fecth all record ,update record,delete record**********
+def DtaBaseOperation():
+    con=connection()
+    cursor = con.cursor(prepared=True)
+
+#********************Table creating into data base*************************
+    # cursor.execute(createTable)
+    print("Table created successfully....")
+
+
+
+#*************************record inserting into data base*******************
+    #myname, mydob, myid, myphone, myemail = getData()
+    #myvalues = (myname, mydob, myid, myphone, myemail)
+    #insertData=InsertDeatils()
+    #cursor.execute(insertData, myvalues)
+    #con.commit()
+    print("data inserted successfully.....................")
+
+#***********************record fetcheing form data base*************************
+    # displayrecod=Displayrecods()
+    # cursor.execute(displayrecod)
+    # row=cursor.fetchall()
+    # while row is not None:
+    #     for i in row:
+    #         print(i)
+    #
+    #     row=cursor.fetchone()
+    #     con.commit()
+
+
+#*******************update record***************************
+    # updaterecord=UpdateRecord()
+    # id=int(input("Enter user id which you want to update record:"))
+    # myname, mydob, myid, myphone, myemail = getData()
+    #
+    # myvalues = (myname, mydob, myid, myphone, myemail,id)
+    # cursor.execute(updaterecord,myvalues)
+    print("user update successfully.....")
+
+
+#*********************Delete record***************************
+    # deltereocrd=DeleteRecord()
+    # id=int(input("Enter user id Which data you want to delete:"))
+    # myvalue=(id,)
+    # cursor.execute(deltereocrd,myvalue)
+    # print("user Deleted successfully")
+    cursor.close()
+    con.close()
+DtaBaseOperation()
